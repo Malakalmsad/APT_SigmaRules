@@ -1,0 +1,28 @@
+title: Keylogger detector (Sysmon).
+description: keylogger is a simple standalone executable that sets global keyboard hooks and writes all keystrokes into a file in an encrypted form.
+author: Alexandr Yampolskyi, SOC Prime
+references:
+- https://www.welivesecurity.com/wp-content/uploads/2018/07/ESET_Quasar_Sobaken_Vermin.pdf#page15
+date: 2018/06/01
+status: stable
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID: 1
+    file_hash:
+    - 21921864D2F1AB2761C36031A2E1D2C00C9B304A
+    - 3C2D0615BEF6F88FED6E308D4F45B6133080C74F
+    - 91E8346910E0E6783ACFC4F2B9A745C81BD7573A
+  condition: selection
+fields:
+- Image
+- TargetObject
+- Hashes
+falsepositives:
+- Unknown
+level: high
+tags:
+- attack.Execution
+- attack.t1204
